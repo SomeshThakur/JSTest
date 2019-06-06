@@ -24,8 +24,8 @@ const showTime = async (date = new Date()) => {
     document.getElementById("MyClockDisplay").innerText = time;
     if (keep_running) {
         setTimeout(() => {
-            d.setSeconds(d.getSeconds() + 1)
-            showTime(d)
+            date.setSeconds(date.getSeconds() + 1)
+            showTime(date)
         }, 1000);
     }
 }
