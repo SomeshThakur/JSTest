@@ -4,8 +4,8 @@ let radius = canvas.height / 2;
 let keep_running = true;
 let clock_func;
 
-const showTime = async () => {
-    let date = new Date();
+const showTime = async (date = new Date()) => {
+
     let hour = date.getHours(); // 0 - 23
     let minute = date.getMinutes(); // 0 - 59
     let second = date.getSeconds(); // 0 - 59
@@ -27,7 +27,10 @@ const showTime = async () => {
     let time = hour + ":" + minute + ":" + second + " " + session;
     if (keep_running) {
         document.getElementById("MyClockDisplay").innerText = time;
-        setTimeout(showTime, 1000);
+        setTimeout(() => {
+            d.setSeconds(d.getSeconds() + 1)
+            showTime(d)
+        }, 1000);
     }
 }
 
@@ -42,7 +45,15 @@ const bindResetBtnEvent = () => {
         d.setMinutes(0, 0, 0);
         d.setSeconds(0, 0);
         clearInterval(clock_func);
-        drawTime(ctx, radius, d)
+        drawFace(ctx, radius);
+        drawNumbers(ctx, radius);
+        drawTime(ctx, radius, d);
+        clock_func = setInterval(() => {
+            d.setSeconds(d.getSeconds() + 1)
+            showTime(d)
+            keep_running = true;
+            drawClockAgain(d);
+        }, 1000);
         // ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 }
@@ -51,6 +62,7 @@ const bindCurTimeEvent = () => {
     document.getElementById(`curtime`).onclick = () => {
         keep_running = true;
         showTime();
+        clearInterval(clock_func)
         clock_func = setInterval(drawClock, 1000);
     }
 }
@@ -62,7 +74,11 @@ const MyClock = () => {
     clock_func = setInterval(drawClock, 1000);
 
 }
-
+const drawClockAgain = (d) => {
+    drawFace(ctx, radius);
+    drawNumbers(ctx, radius);
+    drawTime(ctx, radius, d);
+}
 const drawClock = () => {
     drawFace(ctx, radius);
     drawNumbers(ctx, radius);
