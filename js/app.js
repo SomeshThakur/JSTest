@@ -6,14 +6,10 @@ let clock_func;
 
 const showTime = async (date = new Date()) => {
 
-    let hour = date.getHours(); // 0 - 23
+    let hour = date.getHours(); // 0 - 12
     let minute = date.getMinutes(); // 0 - 59
     let second = date.getSeconds(); // 0 - 59
     let session = "AM";
-
-    if (hour == 0) {
-        hour = 12;
-    }
 
     if (hour > 12) {
         hour = hour - 12;
@@ -25,8 +21,8 @@ const showTime = async (date = new Date()) => {
     second = (second < 10) ? "0" + second : second;
 
     let time = `${hour}:${minute}:${second}${session}`;
+    document.getElementById("MyClockDisplay").innerText = time;
     if (keep_running) {
-        document.getElementById("MyClockDisplay").innerText = time;
         setTimeout(() => {
             d.setSeconds(d.getSeconds() + 1)
             showTime(d)
@@ -42,8 +38,6 @@ const bindResetBtnEvent = () => {
         document.querySelector("#MyClockDisplay").innerText = time;
         let d = new Date();
         d.setHours(0, 0, 0, 0);
-        d.setMinutes(0, 0, 0);
-        d.setSeconds(0, 0);
         clearInterval(clock_func);
         drawFace(ctx, radius);
         drawNumbers(ctx, radius);
