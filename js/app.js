@@ -24,7 +24,7 @@ const showTime = async (date = new Date()) => {
     minute = (minute < 10) ? "0" + minute : minute;
     second = (second < 10) ? "0" + second : second;
 
-    let time = hour + ":" + minute + ":" + second + " " + session;
+    let time = `${hour}:${minute}:${second}${session}`;
     if (keep_running) {
         document.getElementById("MyClockDisplay").innerText = time;
         setTimeout(() => {
